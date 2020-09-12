@@ -1,0 +1,47 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <h1>SYSCLIDENT</h1>
+      <span class="menu-spacer"></span>
+
+      <button mat-button [matMenuTriggerFor]="menuCompra">
+        Compras
+        <mat-icon>arrow_drop_down</mat-icon></button>
+      <mat-menu #menuCompra="matMenu">
+        <button mat-menu-item [routerLink]="'/pages/compra'">Registrar Compra</button>
+
+      </mat-menu>
+
+
+      <button mat-button [matMenuTriggerFor]="menuVenta">
+        Ventas
+        <mat-icon>arrow_drop_down</mat-icon></button>
+      <mat-menu #menuVenta="matMenu">
+        <button mat-menu-item >Registrar Venta</button>
+
+      </mat-menu>
+
+
+      <button mat-button [matMenuTriggerFor]="menuInventario">
+        Almacen
+        <mat-icon>arrow_drop_down</mat-icon></button>
+      <mat-menu #menuInventario="matMenu">
+        <button mat-menu-item [routerLink]="'/pages/producto'">Productos</button>
+        <button mat-menu-item [routerLink]="'/pages/categoria'">Categorias</button>
+
+      </mat-menu>
+
+      <button mat-button [matMenuTriggerFor]="menuAdministracion">
+        Administracion
+        <mat-icon>arrow_drop_down</mat-icon></button>
+      <mat-menu #menuAdministracion="matMenu">
+        <button mat-menu-item [routerLink]="'/pages/empleado'">Empleados</button>
+        <button mat-menu-item [routerLink]="'/pages/tipo-documento'">Tipos Documentos</button>
+        <button mat-menu-item [routerLink]="'/pages/cliente'">Clientes</button>
+        <button mat-menu-item [routerLink]="'/pages/gasto'">Gastos</button>
+        <button mat-menu-item [routerLink]="'/pages/proveedor'">Proveedores</button>
+
+      </mat-menu>
+
+    </mat-toolbar-row>
+
+  </mat-toolbar>

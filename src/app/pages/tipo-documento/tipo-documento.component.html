@@ -1,0 +1,54 @@
+<mat-card>
+    <mat-card-title>
+      Administracion de tipos de documentos
+    </mat-card-title>
+    <mat-card-subtitle>
+      <button mat-raised-button color="primary" [routerLink]="'/pages/tipo-documento/add'">
+        <mat-icon>add</mat-icon>
+        Nuevo
+      </button>
+    </mat-card-subtitle>
+    <mat-card-content>
+      
+        <mat-form-field>
+            <mat-label>Busqueda de tipos de documentos</mat-label>
+            <input matInput (keyup)="applyFilter($event)">
+          </mat-form-field>
+        <div class="mat-elevation-z8">
+          <table mat-table [dataSource]="dataSource" matSort>
+          
+        
+            <ng-container matColumnDef="nombre">
+              <th mat-header-cell *matHeaderCellDef>  Nombre </th>
+              <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                <td mat-cell *matCellDef="let element"> 
+                    <button mat-raised-button color="primary" [matMenuTriggerFor]="menuCrud">
+                        <mat-icon>more_vert</mat-icon>     
+                    </button>
+                    <mat-menu #menuCrud="matMenu">
+                        <button mat-menu-item [routerLink]="['/pages/tipo-documento','edit',element.idTipoDocumento]">
+                            <mat-icon>edit</mat-icon>
+                            <span>Editar</span>
+                          </button>
+                          <button mat-menu-item (click)="delete(element)">
+                            <mat-icon>delete</mat-icon>
+                            <span>Eliminar</span>
+                          </button>
+                         
+                    </mat-menu>
+                   
+                </td>
+              </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+          </div>
+    </mat-card-content>
+</mat-card>

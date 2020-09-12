@@ -1,0 +1,150 @@
+<mat-card>
+  <mat-card-title>Registro de compra</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="form">
+
+    <mat-form-field appearance="outline">
+        <mat-label>Tipos de documento</mat-label>
+        <mat-select formControlName="tipoDocumento" required>
+            <mat-option *ngFor="let tipoDocumento of tipoDocumentos" [value]="tipoDocumento.idTipoDocumento">
+               {{tipoDocumento.nombre}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Proveedor</mat-label>
+      <input type="text"matInput
+        [matAutocomplete]="autoProveedor" [formControl]="myControlProveedor">
+        <span matPrefix>
+          <mat-icon>search</mat-icon>
+        </span>
+      <mat-autocomplete #autoProveedor="matAutocomplete" [displayWith]="displayFnProveedor"
+        (optionSelected)="seleccionarProveedor($event)">
+        <mat-option *ngFor="let p of filteredOptionsProveedor | async" [value]="p">
+          <span>{{ p.nombre}} - {{p.ruc}}</span>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Empleado</mat-label>
+      <input type="text"matInput
+        [matAutocomplete]="autoEmpleado" [formControl]="myControlEmpleado">
+        <span matPrefix>
+          <mat-icon>search</mat-icon>
+        </span>
+      <mat-autocomplete #autoEmpleado="matAutocomplete" [displayWith]="displayFnEmpleado"
+        (optionSelected)="seleccionarEmpleado($event)">
+        <mat-option *ngFor="let p of filteredOptionsEmpleado | async" [value]="p">
+          <span>{{ p.apellidos}} {{p.nombres}}</span>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Codigo</mat-label>
+        <input type="text" matInput formControlName="codigo" required>
+      </mat-form-field>
+
+      <div class="container-btn-add">
+        <button mat-raised-button color="primary" (click)="openDialog()" >
+          <mat-icon>add</mat-icon>
+          Agregar productos</button>
+      </div>
+
+
+        <div *ngIf="compraDetalles != null && compraDetalles.length > 0"
+          class="table-container">
+          <table mat-table [dataSource]="dataProductos" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="codigo">
+              <th mat-header-cell *matHeaderCellDef> Codigo </th>
+              <td mat-cell *matCellDef="let detail;">{{detail.producto.codigo}} </td>
+              <td mat-footer-cell *matFooterCellDef [style.color]="'red'">
+              <p>SUBTOTAL</p>
+              <p>IGV</p>
+              <p>TOTAL</p>
+            </td>
+
+            </ng-container>
+
+            <ng-container matColumnDef="nombre">
+              <th mat-header-cell *matHeaderCellDef> Nombre </th>
+              <td mat-cell *matCellDef="let detail"> {{detail.producto.nombre}} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+
+            </ng-container>
+
+            <ng-container matColumnDef="cantidad">
+              <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+              <td mat-cell *matCellDef="let detail"> {{detail.cantidad}} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+
+
+            </ng-container>
+
+            <ng-container matColumnDef="precio">
+              <th mat-header-cell *matHeaderCellDef> Precio </th>
+              <td mat-cell *matCellDef="let detail">S/. {{detail.precioCompra}} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+
+
+            </ng-container>
+
+            <ng-container matColumnDef="total">
+              <th mat-header-cell *matHeaderCellDef> Total </th>
+              <td mat-cell *matCellDef="let detail">S/. {{detail.total}}</td>
+              <td mat-footer-cell *matFooterCellDef [style.color]="'red'">
+                <p>S/. {{getSubTotal()}}</p>
+                <p>S/. {{getIGV()}}</p>
+                <p>S/. {{getTotalCost()}}</p>
+
+              </td>
+
+            </ng-container>
+
+            <ng-container matColumnDef="acciones">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let detail;let idx=index;">
+                <button mat-icon-button color="warn" (click)="removeProducto(idx,detail)">
+                  <i class="material-icons">
+                    delete
+                    </i>
+                </button>
+              </td>
+              <td mat-footer-cell *matFooterCellDef></td>
+
+            </ng-container>
+
+
+
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-footer-row *matFooterRowDef="displayedColumns;sticky: true"></tr>
+          </table>
+        </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="fecha" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+
+
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <button class="btn-form" [disabled]="form.invalid" (click)="grabar()" mat-raised-button color="primary">
+      <mat-icon>save</mat-icon>
+      <span>Registrar</span>
+    </button>
+    <button class="btn-form" (click)="cancelar()" mat-raised-button>
+        <mat-icon>cancel</mat-icon>
+       <span>Cancelar</span>
+    </button>
+  </mat-card-actions>
+</mat-card>

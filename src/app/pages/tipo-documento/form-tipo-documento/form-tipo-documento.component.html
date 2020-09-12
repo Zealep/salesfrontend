@@ -1,0 +1,25 @@
+<mat-card>
+    <mat-card-title>{{title}}</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="form">
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre</mat-label>
+          <input type="text" matInput formControlName="nombre" required>
+  
+        </mat-form-field>
+  
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <button class="btn-form" [disabled]="form.invalid" (click)="onSubmit()" mat-raised-button color="primary">
+        <mat-icon>save</mat-icon>
+        <span>{{labelSubmit}}</span>
+      </button>
+      <button class="btn-form" (click)="onCancel()" mat-raised-button>
+          <mat-icon>cancel</mat-icon>
+         <span>Cancelar</span>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+  
