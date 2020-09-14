@@ -1,7 +1,7 @@
 <mat-card>
   <mat-card-title>Buscar producto</mat-card-title>
 <mat-card-content  class="dialog-content">
-  <mat-form-field class="item-autocomplete" appearance="outline">
+  <mat-form-field class="item-autocomplete">
     <mat-label>Producto</mat-label>
     <input type="text" matInput
       [matAutocomplete]="autoProducto" [formControl]="myControlProducto">
@@ -16,17 +16,17 @@
     </mat-autocomplete>
   </mat-form-field>
 
-    <mat-form-field appearance="outline" class="item-proc">
+    <mat-form-field class="item-proc">
       <mat-label>Precio compra del producto</mat-label>
       <input matInput type="number" class="example-right-align" [(ngModel)]="precioCompraModel">
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="item-proc">
+    <mat-form-field class="item-proc">
       <mat-label>Cantidad de productos </mat-label>
       <input matInput type="number" class="example-right-align" [(ngModel)]="cantidadModel">
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="item-proc">
+    <mat-form-field class="item-proc">
       <mat-label>Precio venta del producto</mat-label>
       <input matInput type="number" class="example-right-align" [(ngModel)]="precioVentaModel">
     </mat-form-field>

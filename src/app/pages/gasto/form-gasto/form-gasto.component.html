@@ -4,19 +4,19 @@
       <form [formGroup]="form">
 
         
-        <mat-form-field appearance="outline">
+        <mat-form-field>
             <mat-label>Fecha del gasto</mat-label>
             <input matInput [matDatepicker]="picker" formControlName="fechaGasto" required>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
   
-        <mat-form-field appearance="outline">
+        <mat-form-field>
           <mat-label>Descripcion</mat-label>
           <input type="text" matInput formControlName="descripcion" required>
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
+        <mat-form-field>
             <mat-label>Costo del gasto</mat-label>
             <input type="number" matInput formControlName="costo" required>
             <span matPrefix>S/. &nbsp;</span>
