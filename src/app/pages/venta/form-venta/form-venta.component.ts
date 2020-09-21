@@ -1,35 +1,35 @@
-import { DetailsCompraComponent } from './../details-compra/details-compra.component';
-import { MatTableDataSource } from '@angular/material/table';
-import { DetalleCompra } from './../../../model/detalle-compra';
-import { Compra } from './../../../model/compra';
+import { startWith, map } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CompraService } from './../../../service/compra.service';
+import { VentaService } from './../../../service/venta.service';
 import { EmpleadoService } from './../../../service/empleado.service';
-import { ProveedorService } from './../../../service/proveedor.service';
+import { ClienteService } from './../../../service/cliente.service';
 import { TipoDocumentoService } from './../../../service/tipo-documento.service';
-import { FormGroup, FormControl } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+import { DetalleVenta } from './../../../model/detalle-venta';
 import { Empleado } from './../../../model/empleado';
-import { Proveedor } from './../../../model/proveedor';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { TipoDocumento } from './../../../model/tipo-documento';
+import { Cliente } from './../../../model/cliente';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
+import { Venta } from 'src/app/model/venta';
+import { DetailsVentaComponent } from '../details-venta/details-venta.component';
 
 @Component({
-  selector: 'app-form-compra',
-  templateUrl: './form-compra.component.html',
-  styleUrls: ['./form-compra.component.scss']
+  selector: 'app-form-venta',
+  templateUrl: './form-venta.component.html',
+  styleUrls: ['./form-venta.component.scss']
 })
-export class FormCompraComponent implements OnInit {
+export class FormVentaComponent implements OnInit {
 
   tipoDocumentos: TipoDocumento[] = [];
-  proveedores: Proveedor[] = [];
-  myControlProveedor: FormControl = new FormControl();
-  filteredOptionsProveedor: Observable<any[]>;
-  proveedorSeleccionado: Proveedor;
-  idProveedor: number;
+  clientes: Cliente[] = [];
+  myControlCliente: FormControl = new FormControl();
+  filteredOptionsCliente: Observable<any[]>;
+  clienteSeleccionado: Cliente;
+  idCliente: number;
 
   empleados: Empleado[] = [];
   myControlEmpleado: FormControl = new FormControl();
@@ -37,17 +37,17 @@ export class FormCompraComponent implements OnInit {
   empleadoSeleccionado: Empleado;
   idEmpleado: number;
 
-  displayedColumns: string[] = ['codigo', 'nombre', 'cantidad', 'precio', 'total', 'acciones'];
+  displayedColumns: string[] = ['codigo', 'nombre','precio', 'cantidad', 'total', 'acciones'];
 
-  dataProductos: MatTableDataSource<DetalleCompra>;
-  compraDetalles: DetalleCompra[] = [];
+  dataProductos: MatTableDataSource<DetalleVenta>;
+  ventaDetalles: DetalleVenta[] = [];
 
 
-  idCompra: number;
+  idVenta: number;
 
   form: FormGroup = new FormGroup({
     tipoDocumento: new FormControl(''),
-    proveedor: new FormControl(''),
+    cliente: new FormControl(''),
     empleado: new FormControl(''),
     codigo: new FormControl(''),
     fecha: new FormControl(''),
@@ -58,26 +58,26 @@ export class FormCompraComponent implements OnInit {
 
 
   constructor(private tipoDocumentoService: TipoDocumentoService,
-    private proveedorService: ProveedorService,
+    private clienteService: ClienteService,
     private empleadoService: EmpleadoService,
-    private compraService: CompraService,
+    private ventaService: VentaService,
     private snackBar: MatSnackBar,
     private router: Router,
     private route: ActivatedRoute,
     public dialog:MatDialog) { }
 
   ngOnInit(): void {
-    this.idCompra = +this.route.snapshot.paramMap.get('buy');
-    this.loadCompra(this.idCompra);
+    this.idVenta = +this.route.snapshot.paramMap.get('sell');
+    this.loadVenta(this.idVenta);
     this.listTipoDocumentos();
-    this.listProveedores();
+    this.listClientes();
     this.listEmpleados();
-    this.dataProductos = new MatTableDataSource(this.compraDetalles);
+    this.dataProductos = new MatTableDataSource(this.ventaDetalles);
 
-    this.filteredOptionsProveedor = this.myControlProveedor.valueChanges
+    this.filteredOptionsCliente = this.myControlCliente.valueChanges
       .pipe(
         startWith(null),
-        map(val => this.filterProveedor(val))
+        map(val => this.filterCliente(val))
       );
 
     this.filteredOptionsEmpleado = this.myControlEmpleado.valueChanges
@@ -100,13 +100,13 @@ export class FormCompraComponent implements OnInit {
       return this.getTotalCost()-this.getIGV();
   }
 
-  removeProducto(index: number, t: DetalleCompra) {
-    this.compraDetalles.splice(index, 1);
+  removeProducto(index: number, t: DetalleVenta) {
+    this.ventaDetalles.splice(index, 1);
     this.refreshDataSource();
   }
 
   refreshDataSource() {
-    this.dataProductos = new MatTableDataSource(this.compraDetalles);
+    this.dataProductos = new MatTableDataSource(this.ventaDetalles);
 
   }
 
@@ -118,30 +118,30 @@ export class FormCompraComponent implements OnInit {
 
   }
 
-  listProveedores() {
-    this.proveedorService.getAll()
+  listClientes() {
+    this.clienteService.getAll()
       .subscribe(x => {
-        this.proveedores = x;
+        this.clientes = x;
       })
 
   }
 
-  private filterProveedor(val: any) {
-    if (val != null && val.idProveedor > 0) {
-      return this.proveedores.filter(option =>
+  private filterCliente(val: any) {
+    if (val != null && val.idCliente > 0) {
+      return this.clientes.filter(option =>
         option.nombre.toLowerCase().includes(val.nombre.toLowerCase()));
     } else {
-      return this.proveedores.filter(option =>
+      return this.clientes.filter(option =>
         option.nombre.toLowerCase().includes(val.toLowerCase()));
     }
   }
 
-  displayFnProveedor(val: Proveedor) {
-    return val ? `${val.nombre} - ${val.ruc}` : val;
+  displayFnCliente(val: Cliente) {
+    return val ? `${val.nombre} - ${val.dni}` : val;
   }
 
-  seleccionarProveedor(e) {
-    this.proveedorSeleccionado = e.option.value;
+  seleccionarCliente(e) {
+    this.clienteSeleccionado = e.option.value;
   }
 
   listEmpleados() {
@@ -171,67 +171,65 @@ export class FormCompraComponent implements OnInit {
   }
 
   grabar() {
-    console.log('form', this.form);
 
-    let compra = new Compra();
+    let venta = new Venta();
     let tipoDocumento = new TipoDocumento();
 
 
-    if (this.idCompra != 0) {
-      compra.idCompra = this.idCompra;
+    if (this.idVenta != 0) {
+      venta.idVenta = this.idVenta;
     }
     tipoDocumento.idTipoDocumento = this.form.get('tipoDocumento').value;
-    compra.tipoDocumento = tipoDocumento;
-    compra.proveedor = this.proveedorSeleccionado;
-    compra.empleado = this.empleadoSeleccionado;
-    compra.codigo = this.form.get('codigo').value;
-    compra.fecha = this.form.get('fecha').value;
-    compra.detallesCompra = this.compraDetalles;
+    venta.tipoDocumento = tipoDocumento;
+    venta.cliente = this.clienteSeleccionado;
+    venta.empleado = this.empleadoSeleccionado;
+    venta.codigo = this.form.get('codigo').value;
+    venta.fecha = this.form.get('fecha').value;
+    venta.detallesVenta = this.ventaDetalles;
 
-    compra.subTotal = this.getSubTotal();
-    compra.igv = this.getIGV();
-    compra.total = this.getTotalCost();
+    venta.subTotal = this.getSubTotal();
+    venta.igv = this.getIGV();
+    venta.total = this.getTotalCost();
 
-    this.compraService.save(compra)
+    this.ventaService.save(venta)
       .subscribe(result => {
-        this.router.navigate(['/pages/compra']);
-        if (this.idCompra == 0) {
-          this.snackBar.open('Compra fue registrada', 'Cerrar', {
+        this.router.navigate(['/pages/venta']);
+        if (this.idVenta == 0) {
+          this.snackBar.open('Venta fue registrada', 'Cerrar', {
             duration: 3000
           });
         }
         else {
-          this.snackBar.open('Compra fue modificada', 'Cerrar', {
+          this.snackBar.open('Venta fue modificada', 'Cerrar', {
             duration: 3000
           });
         }
       });
   }
 
-  loadCompra(id: number) {
+  loadVenta(id: number) {
     if (id != 0) {
-      this.compraService.getById(id)
+      this.ventaService.getById(id)
         .subscribe(r => {
           this.form.controls['tipoDocumento'].setValue(r.tipoDocumento.idTipoDocumento);
-          this.form.controls['proveedor'].setValue(r.proveedor.idProveedor);
+          this.form.controls['cliente'].setValue(r.cliente.idCliente);
           this.form.controls['empleado'].setValue(r.empleado.idEmpleado);
           this.form.controls['codigo'].setValue(r.codigo);
           this.form.controls['fecha'].setValue(r.codigo);
           this.form.controls['subTotal'].setValue(r.subTotal);
           this.form.controls['igv'].setValue(r.igv);
           this.form.controls['total'].setValue(r.total);
-
         })
 
     }
   }
 
   cancelar() {
-    this.router.navigate(['/pages/compra']);
+    this.router.navigate(['/pages/venta']);
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(DetailsCompraComponent, {
+    const dialogRef = this.dialog.open(DetailsVentaComponent, {
       width: '550px'
 
     });
@@ -241,7 +239,7 @@ export class FormCompraComponent implements OnInit {
       if (result != null) {
 
         if (!this.validResponseDialog(result)) {
-          this.compraDetalles.push(result);
+          this.ventaDetalles.push(result);
           this.refreshDataSource();
         }
         else {
@@ -254,8 +252,9 @@ export class FormCompraComponent implements OnInit {
     });
   }
 
-  validResponseDialog(det: DetalleCompra): boolean {
-    return (det.producto.idProducto == null || det.precioCompra == null || det.cantidad == null
+  validResponseDialog(det: DetalleVenta): boolean {
+    return (det.producto.idProducto == null || det.precio == null || det.cantidad == null
     )
   }
 }
+

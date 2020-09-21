@@ -34,11 +34,14 @@ import { AddProveedorComponent } from './proveedor/add-proveedor/add-proveedor.c
 import { EditProveedorComponent } from './proveedor/edit-proveedor/edit-proveedor.component';
 import { FormProveedorComponent } from './proveedor/form-proveedor/form-proveedor.component';
 import { DetailsCompraComponent } from './compra/details-compra/details-compra.component';
+import { VentaComponent } from './venta/venta.component';
+import { DetailsVentaComponent } from './venta/details-venta/details-venta.component';
+import { FormVentaComponent } from './venta/form-venta/form-venta.component';
 
 
 
 @NgModule({
-  declarations: [CategoriaComponent, AddCategoriaComponent, EditCategoriaComponent, FormCategoriaComponent, TipoDocumentoComponent, AddTipoDocumentoComponent, EditTipoDocumentoComponent, FormTipoDocumentoComponent, GastoComponent, AddGastoComponent, EditGastoComponent, FormGastoComponent, EmpleadoComponent, AddEmpleadoComponent, EditEmpleadoComponent, FormEmpleadoComponent, ClienteComponent,AddClienteComponent,EditClienteComponent,FormClienteComponent, ProductoComponent, FormProductoComponent, CompraComponent, FormCompraComponent, ProveedorComponent, AddProveedorComponent, EditProveedorComponent, FormProveedorComponent, DetailsCompraComponent],
+  declarations: [CategoriaComponent, AddCategoriaComponent, EditCategoriaComponent, FormCategoriaComponent, TipoDocumentoComponent, AddTipoDocumentoComponent, EditTipoDocumentoComponent, FormTipoDocumentoComponent, GastoComponent, AddGastoComponent, EditGastoComponent, FormGastoComponent, EmpleadoComponent, AddEmpleadoComponent, EditEmpleadoComponent, FormEmpleadoComponent, ClienteComponent,AddClienteComponent,EditClienteComponent,FormClienteComponent, ProductoComponent, FormProductoComponent, CompraComponent, FormCompraComponent, ProveedorComponent, AddProveedorComponent, EditProveedorComponent, FormProveedorComponent, DetailsCompraComponent, VentaComponent, DetailsVentaComponent, FormVentaComponent],
   imports: [
     PagesRoutingModule,
     CommonModule,

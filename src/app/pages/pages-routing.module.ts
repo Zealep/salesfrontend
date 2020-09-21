@@ -1,3 +1,4 @@
+import { FormVentaComponent } from './venta/form-venta/form-venta.component';
 import { EditProveedorComponent } from './proveedor/edit-proveedor/edit-proveedor.component';
 import { AddProveedorComponent } from './proveedor/add-proveedor/add-proveedor.component';
 import { FormCompraComponent } from './compra/form-compra/form-compra.component';
@@ -23,6 +24,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { GastoComponent } from './gasto/gasto.component';
 import { EditGastoComponent } from './gasto/edit-gasto/edit-gasto.component';
 import { ProveedorComponent } from './proveedor/proveedor.component';
+import { VentaComponent } from './venta/venta.component';
 
 const routes: Routes = [
   {
@@ -125,6 +127,15 @@ const routes: Routes = [
           path: 'compra/form',
           component: FormCompraComponent
         },
+           //CRUD VENTA
+           {
+            path: 'venta',
+            component: VentaComponent
+          },
+          {
+            path: 'venta/form',
+            component: FormVentaComponent
+          }
 
     ]
 

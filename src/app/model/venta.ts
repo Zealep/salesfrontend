@@ -1,8 +1,9 @@
+import { DetalleVenta } from './detalle-venta';
 import { Empleado } from './empleado';
 import { Cliente } from './cliente';
 import { TipoDocumento } from './tipo-documento';
 export class Venta{
-    
+
     idVenta: number;
     tipoDocumento: TipoDocumento;
     cliente: Cliente;
@@ -13,5 +14,6 @@ export class Venta{
     descuento: number;
     igv: number;
     total: number;
+    detallesVenta: DetalleVenta[];
 
 }
