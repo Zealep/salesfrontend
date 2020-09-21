@@ -72,6 +72,7 @@ export class DetailsVentaComponent implements OnInit {
 
   seleccionarProducto(e) {
     this.productoSeleccionado = e.option.value;
+    this.precioModel = e.option.value.precioVenta;
   }
 
   send(){

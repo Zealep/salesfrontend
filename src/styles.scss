@@ -11,3 +11,9 @@ body {
  mat-card {
   background:#EBF3F5;
   }
+
+  th.mat-header-cell {
+    font-weight: bold;
+    text-transform: uppercase;
+    color: black;
+  }
