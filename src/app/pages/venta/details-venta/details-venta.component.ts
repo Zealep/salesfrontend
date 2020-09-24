@@ -20,6 +20,7 @@ export class DetailsVentaComponent implements OnInit {
   myControlProducto: FormControl = new FormControl();
   filteredOptionsProducto: Observable<any[]>;
   productoSeleccionado: Producto;
+  stockToday: number;
 
   idProductoModel: number;
   cantidadModel: number;
@@ -73,9 +74,17 @@ export class DetailsVentaComponent implements OnInit {
   seleccionarProducto(e) {
     this.productoSeleccionado = e.option.value;
     this.precioModel = e.option.value.precioVenta;
+    this.stockToday = e.option.value.stock;
   }
 
   send(){
+
+    if(!this.validateSend()){
+      this.snackBar.open('Falta completar los datos del producto',null,{
+        duration: 3000
+      });
+      return;
+    }
 
       let detalleVenta = new DetalleVenta();
       let producto = new Producto();
@@ -92,5 +101,13 @@ export class DetailsVentaComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  validateSend():boolean{
+    if(this.productoSeleccionado==null || this.cantidadModel == null || this.precioModel == null){
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
 }
 

@@ -76,6 +76,13 @@ export class DetailsCompraComponent implements OnInit {
 
   send(){
 
+      if(!this.validateSend()){
+        this.snackBar.open('Falta completar los datos del producto',null,{
+          duration: 3000
+        });
+        return;
+      }
+
       let detalleCompra = new DetalleCompra();
       let producto = new Producto();
       producto = this.productoSeleccionado;
@@ -90,6 +97,15 @@ export class DetailsCompraComponent implements OnInit {
 
   close(){
     this.dialogRef.close();
+  }
+
+  validateSend():boolean{
+    if(this.productoSeleccionado==null || this.cantidadModel == null || this.precioCompraModel == null){
+      return false;
+    }
+    else{
+      return true;
+    }
   }
 
 }

@@ -23,6 +23,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatStepperModule} from '@angular/material/stepper';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { getSpanishPaginatorIntl } from './spanish-paginator-intl';
+import {MatBadgeModule} from '@angular/material/badge';
+
 import { MatMomentDateModule,MAT_MOMENT_DATE_ADAPTER_OPTIONS } from "@angular/material-moment-adapter";
 
 
@@ -51,7 +53,8 @@ import { MatMomentDateModule,MAT_MOMENT_DATE_ADAPTER_OPTIONS } from "@angular/ma
     MatTooltipModule,
     MatGridListModule,
     MatStepperModule,
-    MatMomentDateModule
+    MatMomentDateModule,
+    MatBadgeModule
   ],
   exports: [
     MatInputModule,
@@ -75,11 +78,12 @@ import { MatMomentDateModule,MAT_MOMENT_DATE_ADAPTER_OPTIONS } from "@angular/ma
     MatTooltipModule,
     MatGridListModule,
     MatStepperModule,
-    MatMomentDateModule
+    MatMomentDateModule,
+    MatBadgeModule
   ],
   providers: [
      {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {strict: true}},
-     {provide: MAT_DATE_LOCALE, useValue: 'es-PE' },        
+     {provide: MAT_DATE_LOCALE, useValue: 'es-PE' },
      {provide: MatPaginatorIntl, useValue: getSpanishPaginatorIntl() },
      {provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check'}
    ]

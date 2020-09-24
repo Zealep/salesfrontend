@@ -16,9 +16,16 @@
     </mat-autocomplete>
   </mat-form-field>
 
+
+  <mat-form-field class="item-proc" *ngIf="this.productoSeleccionado!=null">
+    <mat-label>Stock actual</mat-label>
+    <input matInput disabled type="number" class="example-right-align" [(ngModel)]="stockToday">
+  </mat-form-field>
+
     <mat-form-field class="item-proc">
       <mat-label>Precio</mat-label>
       <input matInput type="number" class="example-right-align" [(ngModel)]="precioModel">
+      <span matPrefix>S/. &nbsp;</span>
     </mat-form-field>
 
     <mat-form-field class="item-proc">

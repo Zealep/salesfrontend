@@ -1,4 +1,4 @@
-import { startWith, map } from 'rxjs/operators';
+import { startWith, map, catchError } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { VentaService } from './../../../service/venta.service';
 import { EmpleadoService } from './../../../service/empleado.service';
@@ -8,7 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DetalleVenta } from './../../../model/detalle-venta';
 import { Empleado } from './../../../model/empleado';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { TipoDocumento } from './../../../model/tipo-documento';
 import { Cliente } from './../../../model/cliente';
 import { Component, OnInit } from '@angular/core';
@@ -192,6 +192,15 @@ export class FormVentaComponent implements OnInit {
     venta.total = this.getTotalCost();
 
     this.ventaService.save(venta)
+    .pipe(
+      catchError(error => {
+        console.log('error',error);
+        this.snackBar.open(error, null, {
+          duration: 3000
+        });
+        return EMPTY;
+      })
+    )
       .subscribe(result => {
         this.router.navigate(['/pages/venta']);
         if (this.idVenta == 0) {
@@ -230,7 +239,8 @@ export class FormVentaComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DetailsVentaComponent, {
-      width: '550px'
+      width: '550px',
+      disableClose:true
 
     });
 

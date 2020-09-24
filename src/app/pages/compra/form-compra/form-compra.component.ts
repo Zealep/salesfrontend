@@ -232,7 +232,8 @@ export class FormCompraComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DetailsCompraComponent, {
-      width: '550px'
+      width: '550px',
+      disableClose:true
 
     });
 

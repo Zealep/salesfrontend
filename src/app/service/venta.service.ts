@@ -15,11 +15,11 @@ export class VentaService {
 
   constructor(private http: HttpClient) { }
 
-  getAll() {        
+  getAll() {
     return this.http.get<Venta[]>(`${this.url}/list`)
     .pipe(
       catchError(this.handleError)
-    );  
+    );
   }
 
   getById(id: number) {
@@ -33,7 +33,7 @@ export class VentaService {
       catchError(this.handleError)
     );
   }
-  
+
 
   update(x: Venta) {
     return this.http.put<Respuesta>(`${this.url}/save`, x)
@@ -58,7 +58,7 @@ export class VentaService {
       console.log('Error:', error.error);
     }
     //catch and rethrow
-    return throwError('Cannot perform the request, please try again later');
+    return throwError(error.error.message);
 
   }
 }
